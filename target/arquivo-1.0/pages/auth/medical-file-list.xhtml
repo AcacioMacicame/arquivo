@@ -1,0 +1,164 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutViewBean.layout}">
+
+    <ui:define name="head-end">
+    </ui:define>
+
+    <ui:define name="title">
+        Lista de Fichas
+    </ui:define>
+
+    <ui:define name="description">
+        Encotre listadas aqui todas as Ficha de Arquivo Clínico
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form id="list">
+            <div class="box box-primary">
+                <p:dataTable style="border: 2px" var="selected" rows="7" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             value="#{medicalFileViewBean.all}">
+
+                    <f:facet name="header" >
+                        <p:commandButton rendered="#{request.isUserInRole('MANAGER')}"
+                                         value="Novo" icon="fa fa-plus-square-o" styleClass="btn-primary"
+                                         action="/pages/manager/medical-file?faces-redirect=true">
+                        </p:commandButton>
+                    </f:facet>
+
+                    <p:column styleClass="align-center" headerText="NID" width="120"
+                              sortBy="#{selected.nid}" filterBy="#{selected.nid}" filterMatchMode="contains">
+                        <p:outputLabel value="#{selected.nid}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column styleClass="align-center" headerText="Nome completo"
+                              sortBy="#{selected.sureName}" filterBy="#{selected.sureName}" filterMatchMode="contains">
+                        <p:outputLabel value="#{selected.name} #{selected.sureName}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column styleClass="align-center" headerText="Sexo" width="150"
+                              sortBy="#{selected.gender.description}" filterBy="#{selected.gender.description}" filterMatchMode="contains">
+                        <p:outputLabel value="#{selected.gender.description}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column styleClass="align-center" headerText="Telefone" width="150"
+                              sortBy="#{selected.phone}" filterBy="#{selected.phone}" filterMatchMode="contains">
+                        <p:outputLabel value="#{selected.phone}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column styleClass="align-center" headerText="Acções" width="250">
+                        <p:commandButton rendered="#{request.isUserInRole('MANAGER')}"
+                                         id="btRemove" value="Apagar" action="#{medicalFileViewBean.delete(selected)}" icon="fa fa-remove"
+                                         styleClass="btn-danger" update="list" style="width:100px !important;">
+                            <p:confirm header="Confirmation" message="Deseja Apagar a ficha?" icon="ui-icon-danger"/>
+                        </p:commandButton>
+
+                        <p:commandButton id="btDetails" value="Detalhes" icon="fa fa-info-circle" styleClass="btn-info" style="width:100px !important;"
+                                         actionListener="#{medicalFileViewBean.details}" update="list:fileDetails"
+                                         oncomplete="PF('fileDetails').show();">
+
+                            <f:attribute name="selectedMedicalFile" value="#{selected}" />
+                            <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener"/>
+
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </div>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Sim" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="Nao" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+            <p:dialog id="fileDetails" header="Detalhes da ficha " widgetVar="fileDetails" draggable="false" resizable="false" modal="true" closable="false">
+                <div class="box box-primary with-border">
+                    <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                     layout="grid" styleClass="ui-fluid card">
+
+                        <p:outputLabel value="Apelido: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.sureName}"/>
+
+                        <p:outputLabel value="Nome: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.name}"/>
+
+                        <p:outputLabel value="Data de Nascimento: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.birthdate}"/>
+
+                        <p:outputLabel value="Estado Civil: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.maritalStatus.description}"/>
+
+                        <p:outputLabel value="Sexo: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.gender.description}"/>
+
+                        <p:outputLabel value="Raca: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.breed.description}"/>
+
+                        <p:outputLabel value="Filiacao: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.filiation}"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                     layout="grid" styleClass="ui-fluid card">
+
+                        <p:outputLabel value="Tipo de Documento: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.documentType.description}"/>
+
+                        <p:outputLabel value="Número de Documento: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.documentNumber}"/>
+
+                        <p:outputLabel value="Local de Emissao: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.local.name}"/>
+
+                        <p:outputLabel value="Data de Emissao: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.issueDate}"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                     layout="grid" styleClass="ui-fluid card">
+
+                        <p:outputLabel value="Naturalidade: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.naturalness.name}"/>
+
+                        <p:outputLabel value="Residencia: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.residence}"/>
+
+                        <p:outputLabel value="Telefone: "/>
+                        <h:outputText mask="(99) 999 9999" value="#{medicalFileViewBean.medicalFile.phone}"/>
+                    </p:panelGrid>
+                    <p:panelGrid  columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                     layout="grid" styleClass="ui-fluid card">
+
+                        <p:outputLabel value="Profissao: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.profession}"/>
+
+                        <p:outputLabel value="Local de Trabalho: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.workplace}"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+                                     layout="grid" styleClass="ui-fluid card">
+
+                        <p:outputLabel value="Observacoes: "/>
+                        <h:outputText value="#{medicalFileViewBean.medicalFile.remarks}"/>
+
+                    </p:panelGrid>
+
+
+                </div>
+                <h:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6"
+                             layout="grid" styleClass="ui-fluid card">
+                    <p:commandButton id="btClose" value="Fechar" icon="fa fa-remove" oncomplete="PF('fileDetails').hide();"
+                                     styleClass="btn-danger"/>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

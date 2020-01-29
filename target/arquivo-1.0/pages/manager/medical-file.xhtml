@@ -1,0 +1,361 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutViewBean.layout}">
+
+    <ui:define name="head-end">
+        <style type="text/css">
+            .ui-wizard-nav-next {
+                background-color: #3c8dbc !important;
+                color: white !important;
+            }
+            .ui-wizard-nav-back {
+                background-color: #3c8dbc !important;
+                color: white !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">
+        Ficha de Arquivo Clínico
+    </ui:define>
+
+    <ui:define name="description">
+        Registe aqui todas Ficha de Arquivo Clínico
+    </ui:define>
+
+    <ui:define name="body">
+
+        <p:panel styleClass="box box-primary">
+
+            <h:form id="form">
+
+                <p:messages autoUpdate="true" id="messages" closable="true" styleClass="text-align:left"
+                            showDetail="false"></p:messages>
+
+                <p:wizard id="wizard" backLabel="Voltar" nextLabel="Proximo" flowListener="#{medicalFileViewBean.onFlowProcess}">
+                    <p:tab id="personal" title="Dados Pessoais">
+                        <p:panelGrid styleClass="ui-fluid card">
+                            <div class="box-header with-border">
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="sureName" value="Apelido"/>
+                                            <p:inputText id="sureName" value="#{medicalFileViewBean.selected.sureName}"
+                                                         required="true" requiredMessage="Campo apelido é obrigatório"/>
+                                            <span class="help-block">
+                                                <p:message for="sureName"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="name" value="Nome"/>
+                                            <p:inputText id="name" value="#{medicalFileViewBean.selected.name}"
+                                                         required="true" requiredMessage="Campo nome é obrigatório"/>
+                                            <span class="help-block">
+                                                <p:message for="name"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="birthdate" value="Data de Nascimento"/>
+                                            <p:calendar id="birthdate" value="#{medicalFileViewBean.selected.birthdate}" required="true"
+                                                        requiredMessage="Campo data de Nascimento é obrigatório" showOn="button"/>
+                                            <span class="help-block">
+                                                <p:message for="birthdate"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="maritalStatus" value="Estado Civil"/>
+                                            <p:selectOneMenu id="maritalStatus" value="#{medicalFileViewBean.selected.maritalStatus}"
+                                                             required="true" requiredMessage="O campo estado civil e obrigatorio">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{medicalFileViewBean.allMaritalStatus}" var="maritalStatus" itemLabel="#{maritalStatus.description}"
+                                                               itemValue="#{maritalStatus}"/>
+                                            </p:selectOneMenu>
+                                            <span class="help-block">
+                                                <p:message for="maritalStatus"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="gender" value="Sexo"/>
+                                            <p:selectOneMenu id="gender" value="#{medicalFileViewBean.selected.gender}"
+                                                             required="true" requiredMessage="O campo sexo e obrigatorio">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{medicalFileViewBean.allGenders}" var="gender" itemLabel="#{gender.description}"
+                                                               itemValue="#{gender}"/>
+                                            </p:selectOneMenu>
+                                            <span class="help-block">
+                                                <p:message for="gender"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="breed" value="Raca"/>
+                                            <p:selectOneMenu id="breed" value="#{medicalFileViewBean.selected.breed}"
+                                                             required="true" requiredMessage="O campo raca e obrigatorio">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{medicalFileViewBean.allBreeds}" var="breed" itemLabel="#{breed.description}"
+                                                               itemValue="#{breed}"/>
+                                            </p:selectOneMenu>
+                                            <span class="help-block">
+                                                <p:message for="breed"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="filiation" value="Filiacao"/>
+                                            <p:inputText id="filiation" value="#{medicalFileViewBean.selected.filiation}"
+                                                         required="true" requiredMessage="Campo filiacao é obrigatório"/>
+                                            <span class="help-block">
+                                                <p:message for="gender"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:panelGrid>
+                    </p:tab>
+
+                    <p:tab id="identity" title="Identificacao">
+                        <p:panelGrid styleClass="ui-fluid card">
+                            <div class="box-header with-border">
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="documentType" value="Tipo de Documento"/>
+                                            <p:selectOneMenu id="documentType" value="#{medicalFileViewBean.selected.documentType}"
+                                                             required="true" requiredMessage="O campo Tipo de Documento e obrigatorio">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{medicalFileViewBean.allDocumentTypes}" var="documentType" itemLabel="#{documentType.description}"
+                                                               itemValue="#{documentType}"/>
+                                            </p:selectOneMenu>
+                                            <span class="help-block">
+                                                <p:message for="documentType"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="documentNumber" value="Número de Documento"/>
+                                            <p:inputText id="documentNumber" value="#{medicalFileViewBean.selected.documentNumber}"
+                                                         required="true" requiredMessage="Campo número de documento é obrigatório"/>
+                                                    <span class="help-block">
+                                                        <p:message for="documentNumber"/>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="local" value="Local de Emissao"/>
+                                            <p:selectOneMenu id="local" value="#{medicalFileViewBean.selected.local}"
+                                                             converter="#{provinceConverter}" required="true">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{provinceViewBean.all}" var="local"
+                                                               itemLabel="#{local.name}" itemValue="#{local}"/>
+                                            </p:selectOneMenu>
+                                                    <span class="help-block">
+                                                        <p:message for="local"/>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="issueDate" value="Data de Emissao"/>
+                                            <p:calendar id="issueDate" value="#{medicalFileViewBean.selected.issueDate}" required="true"
+                                                        requiredMessage="Campo data de emissao é obrigatório" showOn="button"/>
+                                                    <span class="help-block">
+                                                        <p:message for="issueDate"/>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:panelGrid>
+                    </p:tab>
+
+                    <p:tab id="address" title="Endereco">
+                        <p:panelGrid styleClass="ui-fluid card">
+                            <div class="box-header with-border">
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="naturalness" value="Naturalidade"/>
+                                            <p:selectOneMenu id="naturalness" value="#{medicalFileViewBean.selected.naturalness}"
+                                                             converter="#{provinceConverter}" required="true">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{provinceViewBean.all}" var="naturalness"
+                                                               itemLabel="#{naturalness.name}" itemValue="#{naturalness}"/>
+                                            </p:selectOneMenu>
+                                                <span class="help-block">
+                                                    <p:message for="naturalness"/>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="residence" value="Residencia"/>
+                                            <p:inputText id="residence" value="#{medicalFileViewBean.selected.residence}"
+                                                         required="true" requiredMessage="Campo residencia é obrigatório"/>
+                                                <span class="help-block">
+                                                    <p:message for="residence"/>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="phone" value="Telefone"/>
+                                            <p:inputMask id="phone" mask="(99) 999 9999" value="#{medicalFileViewBean.selected.phone}"
+                                                         required="true" requiredMessage="Campo telefone é obrigatório"/>
+                                                <span class="help-block">
+                                                    <p:message for="residence"/>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:panelGrid>
+                    </p:tab>
+
+                    <p:tab id="remark" title="Observacoes">
+                        <p:panelGrid styleClass="ui-fluid card">
+                            <div class="box-header with-border">
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-11">
+                                            <p:outputLabel for="profession" value="Profissao"/>
+                                            <p:inputText id="profession" value="#{medicalFileViewBean.selected.profession}"
+                                                         required="true" requiredMessage="Campo profissao é obrigatório"/>
+                                                <span class="help-block">
+                                                    <p:message for="profession"/>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-12">
+                                            <p:outputLabel for="workplace" value="Local de Trabalho"/>
+                                            <p:inputText id="workplace" value="#{medicalFileViewBean.selected.workplace}"
+                                                         required="true" requiredMessage="Campo local de trabalho é obrigatório"/>
+                                                <span class="help-block">
+                                                    <p:message for="naturalness"/>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:panelGrid>
+                        <p:panelGrid styleClass="ui-fluid card">
+                            <div class="box-header with-border">
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-sm-12 ui-g-12 ui-g-nopad">
+                                        <div class="ui-sm-12 ui-g-12">
+                                            <p:outputLabel for="remarks" value="Observacoes"/>
+                                            <p:inputTextarea id="remarks" value="#{medicalFileViewBean.selected.remarks}"
+                                                             required="true" requiredMessage="O campo observacoes e obrigatorio"/>
+                                                <span class="help-block">
+                                                    <p:message for="profession"/>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:panelGrid>
+                    </p:tab>
+
+                    <p:tab id="confirm" title="Confirmacao de dados">
+                        <div class="box box-primary with-border">
+                            <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                         layout="grid" styleClass="ui-fluid card">
+
+                                <p:outputLabel value="Apelido: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.sureName}"/>
+
+                                <p:outputLabel value="Nome: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.name}"/>
+
+                                <p:outputLabel value="Data de Nascimento: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.birthdate}"/>
+
+                                <p:outputLabel value="Estado Civil: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.maritalStatus.description}"/>
+
+                                <p:outputLabel value="Sexo: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.gender.description}"/>
+
+                                <p:outputLabel value="Raca: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.breed.description}"/>
+
+                                <p:outputLabel value="Filiacao: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.filiation}"/>
+                            </p:panelGrid>
+                            <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                         layout="grid" styleClass="ui-fluid card">
+
+                                <p:outputLabel value="Tipo de Documento: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.documentType.description}"/>
+
+                                <p:outputLabel value="Número de Documento: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.documentNumber}"/>
+
+                                <p:outputLabel value="Local de Emissao: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.local.name}"/>
+
+                                <p:outputLabel value="Data de Emissao: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.issueDate}"/>
+                            </p:panelGrid>
+                            <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                         layout="grid" styleClass="ui-fluid card">
+
+                                <p:outputLabel value="Naturalidade: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.naturalness.name}"/>
+
+                                <p:outputLabel value="Residencia: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.residence}"/>
+
+                                <p:outputLabel value="Telefone: "/>
+                                <h:outputText mask="(99) 999 9999" value="#{medicalFileViewBean.selected.phone}"/>
+                            </p:panelGrid>
+                            <p:panelGrid  columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                          layout="grid" styleClass="ui-fluid card">
+
+                                <p:outputLabel value="Profissao: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.profession}"/>
+
+                                <p:outputLabel value="Local de Trabalho: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.workplace}"/>
+                            </p:panelGrid>
+                            <p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+                                         layout="grid" styleClass="ui-fluid card">
+
+                                <p:outputLabel value="Observacoes: "/>
+                                <h:outputText value="#{medicalFileViewBean.selected.remarks}"/>
+
+                            </p:panelGrid>
+
+                        </div>
+                        <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                                     layout="grid" styleClass="ui-fluid">
+                            <p:commandButton id="btnContinuar" value="Registar" action="#{medicalFileViewBean.add}"
+                                             icon="fa fa-plus-circle" styleClass="btn-primary" process="@form" update="form"/>
+                            <p:commandButton id="btnNew" value="Novo" immediate="true" action="#{medicalFileViewBean.newOne}"
+                                             icon="fa fa-file-o" styleClass="btn-info" process="@form" update="form">
+                                <p:ajax update="form" resetValues="true"/>
+                            </p:commandButton>
+                        </p:panelGrid>
+                    </p:tab>
+                </p:wizard>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

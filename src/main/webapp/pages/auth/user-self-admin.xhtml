@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutViewBean.layout}">
+
+    <ui:define name="head-end">
+    </ui:define>
+
+    <ui:define name="title">
+        Utilizador
+    </ui:define>
+
+    <ui:define name="description">
+        Faça aqui a alteração dos seus dados
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form id="form" enctype="multipart/form-data">
+            <p:messages autoUpdate="true" id="messages" closable="true" styleClass="text-align:left"
+                        showDetail="false"></p:messages>
+
+            <div class="box box-primary with-border">
+
+                <p:panelGrid styleClass="ui-fluid card">
+                    <div class="box-header with-border">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="name" value="Nome completo"/>
+                                    <p:inputText id="name" value="#{userSelfUpdateViewBean.selected.name}" required="true"
+                                                 requiredMessage="Campo nome é obrigatório"/>
+                                    <span class="help-block">
+                                        <p:message for="name"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="phone" value="Telefone"/>
+                                    <p:inputMask id="phone" mask="(99) 999 9999" value="#{userSelfUpdateViewBean.selected.phone}"
+                                                 required="true" requiredMessage="Campo telefone é obrigatório"/>
+                                    <span class="help-block">
+                                        <p:message for="phone"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:panelGrid>
+
+                <p:panelGrid styleClass="ui-fluid card">
+                    <div class="box-header with-border">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="username" value="Nome de Utilizador"/>
+                                    <p:inputText id="username" value="#{userSelfUpdateViewBean.selected.username}" validatorMessage="O nome do utilizador deve ter no minimo 5 caracteres"
+                                                 required="true" requiredMessage="Campo nome de utilizador é obrigatório">
+                                        <f:validateLength minimum="5"/>
+                                    </p:inputText>
+                                    <span class="help-block">
+                                        <p:message for="username"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="role" value="Função:  "/>
+                                    <p:inputText id="role" readonly="true" value="#{userSelfUpdateViewBean.selected.role.description}"/>
+                                    <span class="help-block">
+                                        <p:message for="role"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="password" value="Senha"/>
+                                    <p:password id="password" value="#{userSelfUpdateViewBean.selected.password}" match="password2"
+                                                validatorMessage="A senha nao e igual"
+                                                required="true" requiredMessage="Campo senha é obrigatório">
+                                    </p:password>
+                                    <span class="help-block">
+                                        <p:message for="password"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="password2" value="Senha (Confirme)"/>
+                                    <p:password id="password2" value="#{userSelfUpdateViewBean.selected.password}" validatorMessage="A senha deve ter no minimo 8 caracteres"
+                                                required="true" requiredMessage="Campo senha(confirme) é obrigatório">
+                                        <f:validateLength minimum="8"/>
+                                    </p:password>
+                                    <span class="help-block">
+                                        <p:message for="password2"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:panelGrid>
+
+                <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                             layout="grid" styleClass="ui-fluid card">
+                    <p:commandButton id="btnContinuar" value="Actualizar" action="#{userSelfUpdateViewBean.update}"
+                                     icon="fa fa-pencil-square-o" styleClass="btn-primary" process="@form" update="form"/>
+                </p:panelGrid>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

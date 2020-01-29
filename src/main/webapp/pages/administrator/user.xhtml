@@ -1,0 +1,175 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutViewBean.layout}">
+
+    <ui:define name="head-end">
+    </ui:define>
+
+    <ui:define name="title">
+        Utilizadores
+    </ui:define>
+
+    <ui:define name="description">
+        Registe aqui todos utilizadores do sistema
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form id="form" enctype="multipart/form-data">
+
+            <p:messages autoUpdate="true" id="messages" closable="true" styleClass="text-align:left"
+                        showDetail="false"></p:messages>
+
+            <div class="box box-primary">
+                <p:panelGrid styleClass="ui-fluid card">
+                    <div class="box-header with-border">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="name" value="Nome completo"/>
+                                    <p:inputText id="name" value="#{userViewBean.selected.name}" required="true"
+                                                 requiredMessage="Campo nome é obrigatório"/>
+                                    <span class="help-block">
+                                        <p:message for="name"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="phone" value="Telefone"/>
+                                    <p:inputMask id="phone" mask="(99) 999 9999" value="#{userViewBean.selected.phone}"
+                                                 required="true" requiredMessage="Campo telefone é obrigatório"/>
+                                    <span class="help-block">
+                                        <p:message for="phone"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:panelGrid>
+                <p:panelGrid styleClass="ui-fluid card">
+                    <div class="box-header with-border">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="username" value="Nome de Utilizador"/>
+                                    <p:inputText id="username" value="#{userViewBean.selected.username}" validatorMessage="O nome do utilizador deve ter no minimo 5 caracteres"
+                                                 required="true" requiredMessage="Campo nome de utilizador é obrigatório">
+                                        <f:validateLength minimum="5"/>
+                                    </p:inputText>
+                                    <span class="help-block">
+                                        <p:message for="username"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="role" value="Função"/>
+                                    <p:selectOneMenu id="role" value="#{userViewBean.selected.role}" required="true" requiredMessage="O campo funcao e obrigatorio">
+                                        <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{userViewBean.allRoles}" var="role" itemLabel="#{role.description}"
+                                                       itemValue="#{role}"/>
+                                    </p:selectOneMenu>
+                                    <span class="help-block">
+                                        <p:message for="role"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="password" value="Senha"/>
+                                    <p:password id="password" value="#{userViewBean.selected.password}" match="password2"
+                                                validatorMessage="A senha nao e igual"
+                                                required="true" requiredMessage="Campo senha é obrigatório">
+                                    </p:password>
+                                    <span class="help-block">
+                                        <p:message for="password"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="password2" value="Senha (Confirme)"/>
+                                    <p:password id="password2" value="#{userViewBean.selected.password}" validatorMessage="A senha deve ter no minimo 8 caracteres"
+                                                required="true" requiredMessage="Campo senha(confirme) é obrigatório">
+                                        <f:validateLength minimum="8"/>
+                                    </p:password>
+                                    <span class="help-block">
+                                        <p:message for="password2"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:panelGrid>
+                <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                             layout="grid" styleClass="ui-fluid card">
+
+                    <p:commandButton id="btnContinuar" value="Registar" action="#{userViewBean.add}"
+                                     icon="fa fa-plus-circle" styleClass="btn-primary" process="@form"
+                                     update="form list"/>
+                    <p:commandButton id="btnNew" value="Novo" action="#{userViewBean.newOne}" immediate="true"
+                                     icon="fa fa-file-o" styleClass="btn-info" update="list form">
+                        <p:ajax update="form" resetValues="true" />
+
+                    </p:commandButton>
+
+                </p:panelGrid>
+            </div>
+        </h:form>
+        <h:form id="list">
+            <div class="box box-success">
+                <p:dataTable style="border: 2px" var="user" rows="5" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             value="#{userViewBean.all}" update="@form" selectionMode="single" selection="#{userViewBean.selected}" rowKey="#{user.id}">
+                    <p:ajax event="rowSelect" update="form" />
+                    <p:ajax event="page" resetValues="true"  update="form" process="form" partialSubmit="true" />
+
+                    <p:column styleClass="align-center" headerText="Nome completo"
+                              sortBy="#{user.name}" filterBy="#{user.name}" filterMatchMode="contains">
+                        <p:outputLabel value="#{user.name}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column styleClass="align-center" headerText="Nome de Utilizador" width="150"
+                              sortBy="#{user.username}" filterBy="#{user.username}" filterMatchMode="contains">
+                        <p:outputLabel value="#{user.username}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column styleClass="align-center" headerText="Função" width="150"
+                              sortBy="#{user.role.description}" filterBy="#{user.role.description}" filterMatchMode="contains">
+                        <p:outputLabel value="#{user.role.description}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column styleClass="align-center" headerText="telefone" width="150"
+                              sortBy="#{user.phone}" filterBy="#{user.phone}" filterMatchMode="contains">
+                        <p:outputLabel value="#{user.phone}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column headerText="Acções" width="250">
+                        <p:commandButton id="bRemove" value="Apagar" action="#{userViewBean.delete(user)}"
+                                         icon="fa fa-remove" styleClass="btn-danger" update="@form list" style="width:100px !important;">
+                            <p:confirm header="Confirmation" message="Deseja Apagar o utilizador?" icon="ui-icon-danger"/>
+                        </p:commandButton>
+                        <p:commandButton id="bDisable" value="Disabilitar" action="#{userViewBean.disable(user)}" rendered="${user.enabled}"
+                                         icon="fa fa-unlock" styleClass="btn-warning" update="@form list" style="width:100px !important;"/>
+                        <p:commandButton id="bEnable" value="Habilitar" action="#{userViewBean.enable(user)}" rendered="#{not user.enabled}"
+                                         icon="fa fa-lock" styleClass="btn-info" update="@form list" style="width:100px !important;"/>
+                    </p:column>
+                </p:dataTable>
+            </div>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Sim" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="Nao" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,21 @@
+.ui-grid-row .ui-grid-col-2,
+.ui-grid-row .ui-grid-col-10 {
+    padding: 0.5em 0;
+    margin-left: 10px;
+}
+
+.ui-g-12, .ui-sm-12 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.ui-datagrid-column .ui-panel.ui-widget-content {
+    border: none;
+}
+
+.left-alligned-message li{
+    display: block;
+    padding-left: 1%;
+    text-align:left;
+}
+

@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutViewBean.layout}">
+
+    <ui:define name="head-end">
+
+    </ui:define>
+
+    <ui:define name="title">
+        Províncias
+    </ui:define>
+
+    <ui:define name="description">
+        Registe aqui todas províncias do país
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form id="form" enctype="multipart/form-data">
+
+            <p:messages autoUpdate="true" id="messages" closable="true" styleClass="text-align:left"
+                        showDetail="false"></p:messages>
+
+            <div class="box box-primary">
+                <p:panelGrid styleClass="ui-fluid card">
+                    <div class="box-header with-border">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="code" value="Código da província"/>
+                                    <p:inputText id="code" value="#{provinceViewBean.selected.code}" required="true"
+                                                 requiredMessage="Campo código da província é obrigatório"/>
+                                    <span class="help-block">
+                                        <p:message for="code"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                                <div class="ui-sm-12 ui-g-11">
+                                    <p:outputLabel for="name" value="Nome da província"/>
+                                    <p:inputText id="name" value="#{provinceViewBean.selected.name}" required="true"
+                                                 requiredMessage="Campo nome da província é obrigatório"/>
+                                    <span class="help-block">
+                                        <p:message for="name"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:panelGrid>
+                <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                             layout="grid" styleClass="ui-fluid card">
+                    <p:commandButton id="btnContinuar" value="Registar" action="#{provinceViewBean.add}"
+                                     class="fa fa-plus-square" styleClass="btn-primary" process="@form"
+                                     update="list @form"/>
+                    <p:commandButton id="btnNew" value="Novo" action="#{provinceViewBean.newOne}" immediate="true"
+                                     class="fa fa-plus-square" styleClass="btn-info" update="list form">
+                        <p:ajax update="form" resetValues="true" />
+                    </p:commandButton>
+                </p:panelGrid>
+            </div>
+        </h:form>
+
+        <h:form id="search">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="ui-inputgroup">
+                        <p:inputText id="searchIp" placeholder="Busca" />
+                        <span class="ui-inputgroup-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form id="list">
+            <div class="box box-success">
+                <p:dataTable style="border: 2px" var="province" value="#{provinceViewBean.all}"
+                             update="@form" rows="5" paginator="true" paginatorPosition="bottom">
+
+                    <p:column styleClass="align-center" headerText="Código da província" width="200"
+                              filterBy="#{province.code}" sortBy="#{province.code}" filterMatchMode="contains">
+                        <p:inplace id="assigneecode" effectSpeed="fast" event="dblclick">
+                            <f:facet name="output">
+                                #{province.code}
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="inlineProvinceCode" value="#{province.code}" required="true">
+                                    <p:ajax update="@form" listener="#{provinceViewBean.update(province)}"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:inplace>
+
+                    </p:column>
+                    <p:column styleClass="align-center" headerText="Nome da província"
+                              filterBy="#{province.name}" sortBy="#{province.name}" filterMatchMode="contains">
+                        <p:inplace id="assignee" effectSpeed="fast" event="dblclick">
+                            <f:facet name="output">
+                                #{province.name}
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="inlineProvince" value="#{province.name}" required="true">
+                                    <p:ajax update="@form" listener="#{provinceViewBean.update(province)}"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:inplace>
+
+                    </p:column>
+
+                    <p:column styleClass="align-center" headerText="Acções" width="300">
+                        <p:commandButton id="bRemove" value="Apagar" action="#{provinceViewBean.delete(province)}"
+                                         icon="fa fa-remove" styleClass="btn-danger" update="@form form" style="width:100px !important;">
+                            <p:confirm header="Confirmation" message="Deseja Apagar a provincia?" icon="ui-icon-danger"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Sim" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="Nao" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
