@@ -29,7 +29,7 @@
     <envers.version>5.2.12.Final</envers.version>
     <transaction.version>1.2</transaction.version>
     <interceptor.version>1.2</interceptor.version>
-    <connector.version>6.0.6</connector.version>
+    <connector.version>8.0.28</connector.version>
     <springframework.version>2.0.5.RELEASE</springframework.version>
     <sourceforge.version>2.6.12</sourceforge.version>
     <poi.version>3.17</poi.version>
